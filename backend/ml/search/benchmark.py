@@ -9,7 +9,10 @@ Generates comprehensive performance metric tables and a visual comparison chart.
 from dataclasses import asdict
 import os
 from typing import Any, Dict, List, Optional, Tuple
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    plt = None
 
 from backend.ml.search.astar import a_star_search
 from backend.ml.search.best_first import best_first_search
@@ -90,6 +93,8 @@ def generate_benchmark_visualization(results: List[SearchResult], output_path: s
     2. Path Cost (Solution Optimality)
     3. Execution Latency in ms
     """
+    if plt is None:
+        return
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     algos = [r.algorithm_name.replace(" (BFS)", "").replace(" (DFS)", "") for r in results]

@@ -4,8 +4,11 @@
  * RBAC authorization headers, automatic token refresh, and full CRUD workflows.
  */
 
+const rawApiUrl = (import.meta.env.VITE_API_BASE_URL || '').trim();
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+  rawApiUrl && (import.meta.env.DEV || !rawApiUrl.includes('localhost:8000'))
+    ? rawApiUrl
+    : (import.meta.env.PROD ? '/api/v1' : 'http://localhost:8000/api/v1');
 
 // Preset credentials for demo role switching
 export const ROLE_CREDENTIALS = {

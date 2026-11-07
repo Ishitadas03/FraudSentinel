@@ -29,8 +29,9 @@ async def lifespan(app: FastAPI):
         Base.metadata.create_all(bind=engine)
         db = SessionLocal()
         try:
-            from scripts.seed import seed_roles
+            from scripts.seed import seed_roles, seed_default_users
             roles = seed_roles(db)
+            seed_default_users(db, roles)
             db.commit()
         except Exception as e:
             db.rollback()
@@ -49,7 +50,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Enable CORS for local development with frontend applications
+# Enable CORS for local development with frontend applications & Vercel deployments
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -59,6 +60,7 @@ app.add_middleware(
         "http://127.0.0.1:3000",
         "*",
     ],
+    allow_origin_regex=r"^https:\/\/.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -66,9 +68,6 @@ app.add_middleware(
 
 # Include modular API router under /api/v1
 app.include_router(api_router, prefix="/api/v1")
-
-
-
 
 
 @app.get("/", response_model=RootResponse, tags=["System"])
@@ -80,8 +79,24 @@ def read_root():
     }
 
 
+@app.get("/api", response_model=RootResponse, tags=["System"], include_in_schema=False)
+def read_api_root():
+    return {
+        "message": "FraudSentinel API",
+        "version": "1.0.0",
+        "status": "running",
+    }
+
+
 @app.get("/health", response_model=HealthResponse, tags=["System"])
 def health_check():
+    return {
+        "status": "healthy",
+    }
+
+
+@app.get("/api/health", response_model=HealthResponse, tags=["System"], include_in_schema=False)
+def health_check_api_alias():
     return {
         "status": "healthy",
     }

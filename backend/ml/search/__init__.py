@@ -29,11 +29,23 @@ from backend.ml.search.heuristics import (
     zero_heuristic,
 )
 
-from backend.ml.search.benchmark import (
-    generate_benchmark_visualization,
-    run_comprehensive_benchmark,
-    run_single_comparison,
-)
+try:
+    from backend.ml.search.benchmark import (
+        generate_benchmark_visualization,
+        run_comprehensive_benchmark,
+        run_single_comparison,
+    )
+except ImportError:
+    try:
+        from ml.search.benchmark import (
+            generate_benchmark_visualization,
+            run_comprehensive_benchmark,
+            run_single_comparison,
+        )
+    except ImportError:
+        generate_benchmark_visualization = None
+        run_comprehensive_benchmark = None
+        run_single_comparison = None
 
 __all__ = [
     "breadth_first_search",
