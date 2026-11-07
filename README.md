@@ -2,7 +2,10 @@
 
 **FraudSentinel** is an AI-powered banking fraud detection and real-time transaction risk monitoring dashboard. It features a sleek dark-slate interface designed for fraud analysts, providing real-time KPI metrics, transaction volume trends, machine learning alerts, and seamless responsive design.
 
+🔗 **Live Production URL**: [https://fraudsentinel-ai.vercel.app](https://fraudsentinel-ai.vercel.app)
+
 ![FraudSentinel Dashboard](https://img.shields.io/badge/Status-Active-brightgreen)
+[![Vercel Deployment](https://img.shields.io/badge/Deployed%20with-Vercel-black?logo=vercel)](https://fraudsentinel-ai.vercel.app)
 ![React](https://img.shields.io/badge/React-18.3.0-blue?logo=react)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.0-38B2AC?logo=tailwind-css)
 ![Vite](https://img.shields.io/badge/Vite-5.4.0-646CFF?logo=vite)
